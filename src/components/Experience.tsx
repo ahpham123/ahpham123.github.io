@@ -52,7 +52,7 @@ export default function Experience() {
       <div className="mx-auto max-w-5xl px-6 pb-10 pt-6 md:px-8 md:pb-12 md:pt-7">
         <Reveal>
           <p className="font-hand text-2xl text-clay md:text-3xl">
-            where I&rsquo;ve grown roots
+            my journey
           </p>
           <h2 className="mt-2 font-display text-4xl font-semibold text-pine md:text-5xl">
             Experience
