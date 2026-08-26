@@ -1,0 +1,200 @@
+@import "tailwindcss";
+
+/*
+ * Colors live in a plain @theme block so utilities reference
+ * var(--color-*) at runtime — which lets [data-theme="night"]
+ * swap the whole palette with a CSS-only override.
+ */
+@theme {
+  /* ---- Cottagecore palette (day) ---- */
+  --color-cream: #fbf6ec;
+  --color-parchment: #f3e9d4;
+  --color-linen: #efe3cd;
+  --color-sage-light: #b5c2a3;
+  --color-sage: #8a9a78;
+  --color-moss: #5a6b45;
+  --color-pine: #3f4d33;
+  --color-soil: #313b26;
+  --color-terracotta: #c1704e;
+  --color-clay: #a05a3d;
+  --color-rose: #d9a3a0;
+  --color-rose-deep: #c07f7c;
+  --color-butter: #e9c87f;
+  --color-honey: #d4a94e;
+  --color-ink: #443a2e;
+  --color-ink-soft: #6f6353;
+
+  /* ---- Extras ---- */
+  --shadow-soft: 0 2px 12px rgba(40, 34, 24, 0.1), 0 8px 32px rgba(40, 34, 24, 0.08);
+  --shadow-lifted: 0 4px 16px rgba(40, 34, 24, 0.14), 0 12px 40px rgba(40, 34, 24, 0.12);
+}
+
+/* Fonts reference next/font variables, so they must stay inline. */
+@theme inline {
+  --font-display: var(--font-cormorant), Georgia, serif;
+  --font-body: var(--font-nunito), Avenir, Helvetica, sans-serif;
+  --font-hand: var(--font-caveat), "Comic Sans MS", cursive;
+}
+
+/* Non-Tailwind vars used by the hero illustration */
+:root {
+  --hill-1: #b5c2a3;
+  --hill-2: #8a9a78;
+  --celestial: #e9c87f;
+}
+
+/* ---- Night: warm candle-lit dusk ---- */
+html[data-theme="night"] {
+  --color-cream: #262a3a;
+  --color-parchment: #2d3245;
+  --color-linen: #3a4055;
+  --color-sage-light: #8fa07e;
+  --color-sage: #7d8d70;
+  --color-moss: #c0caa0;
+  --color-pine: #e7dfc8;
+  --color-soil: #1d2130;
+  --color-terracotta: #c97a58;
+  --color-clay: #d9a077;
+  --color-rose-deep: #e2b7b4;
+  --color-honey: #e3c06e;
+  --color-ink: #ece4d2;
+  --color-ink-soft: #b7ad9b;
+
+  --hill-1: #3a4157;
+  --hill-2: #2e3448;
+  --celestial: #e3e7f4;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* The page is a single viewport — only overlay panels scroll. */
+html,
+body {
+  height: 100%;
+  overflow: hidden;
+}
+
+/* Sun by day, moon by night: same body, craters fade in after dark. */
+.celestial {
+  position: absolute;
+  border-radius: 9999px;
+  background-color: var(--celestial);
+  opacity: 0.8;
+  transition: background-color 0.9s ease;
+}
+.celestial::before,
+.celestial::after {
+  content: "";
+  position: absolute;
+  border-radius: 9999px;
+  background-color: rgba(96, 106, 148, 0.35);
+  opacity: 0;
+  transition: opacity 0.9s ease;
+}
+.celestial::before {
+  width: 24%;
+  height: 24%;
+  left: 27%;
+  top: 30%;
+}
+.celestial::after {
+  width: 15%;
+  height: 15%;
+  left: 57%;
+  top: 55%;
+}
+html[data-theme="night"] .celestial::before,
+html[data-theme="night"] .celestial::after {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+body {
+  background-color: var(--color-cream);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+}
+
+/* Ease the palette swap when toggling day/night. Element selectors
+   lose to Tailwind's own transition utilities, so hover effects keep
+   their snappier timing. */
+body,
+header,
+footer,
+section,
+article,
+div,
+p,
+h1,
+h2,
+h3,
+span,
+a,
+li {
+  transition-property: background-color, border-color, color;
+  transition-duration: 0.7s;
+  transition-timing-function: ease;
+}
+
+svg path,
+svg circle,
+svg ellipse,
+svg rect {
+  transition: fill 0.7s ease;
+}
+
+/* Hero sky: two gradients crossfading (gradients can't interpolate) */
+.sky-day,
+.sky-night {
+  transition: opacity 0.9s ease;
+}
+.sky-day {
+  background: linear-gradient(to bottom, #f7ecd2, #fbf6ec 65%);
+  opacity: 1;
+}
+.sky-night {
+  background: linear-gradient(to bottom, #151929, #262a3a 65%);
+  opacity: 0;
+}
+html[data-theme="night"] .sky-day {
+  opacity: 0;
+}
+html[data-theme="night"] .sky-night {
+  opacity: 1;
+}
+
+/* Subtle paper grain over everything (decorative, non-interactive) */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  pointer-events: none;
+  opacity: 0.05;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+::selection {
+  background-color: var(--color-butter);
+  color: #443a2e;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-terracotta);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* Stitched border, like the edge of a seed packet */
+.stitched {
+  border: 2px dashed var(--color-clay);
+  border-radius: 0.75rem;
+}
