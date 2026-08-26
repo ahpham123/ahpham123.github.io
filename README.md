@@ -1,6 +1,6 @@
 # ahpham123.github.io
 
-My portfolio site. It renders as a small cottage garden you can look around in, with rock labels on the lawn that open each section. There is a day/night toggle in the navbar if you want to see the fireflies.
+My portfolio site. It renders as a small cottage garden you can look around in, with rock labels on the lawn that open each section. There is a day/night toggle in the navbar that changes the scene between day and night.
 
 Live at [ahpham123.github.io](https://ahpham123.github.io).
 
